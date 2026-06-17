@@ -1,5 +1,6 @@
 import type { TripPlan, TripRequest } from "../trips/types";
-import { buildTripPrompt } from "./prompt";
+import type { CommunitySuggestion } from "../community/types";
+import { buildCommunityPrompt, buildTripPrompt } from "./prompt";
 
 export type AiProvider = "demo" | "openai" | "gemini" | "claude";
 
@@ -7,6 +8,40 @@ type GenerateTripPlanInput = {
   form: TripRequest;
   provider?: AiProvider;
 };
+
+function demoCommunitySuggestion(destino: string, objetivo: string): CommunitySuggestion {
+  return {
+    grupos: [
+      {
+        categoria: "Viagem",
+        sugestao: `Viajantes em ${destino}`,
+        motivo: `Bom para trocar dicas práticas sobre ${objetivo}.`
+      },
+      {
+        categoria: "Gastronomia",
+        sugestao: "Experiências e restaurantes locais",
+        motivo: "Ajuda a descobrir lugares autênticos e fornecedores validados."
+      },
+      {
+        categoria: "Aventura",
+        sugestao: "Passeios leves e natureza",
+        motivo: "Combina viajantes com interesses parecidos e reduz risco em passeios."
+      }
+    ],
+    eventos: [
+      {
+        tipo: "Encontro de boas-vindas",
+        descricao: "Pequeno encontro para viajantes trocarem dicas no primeiro dia.",
+        dica: "Procure eventos gratuitos ou com consumo individual."
+      },
+      {
+        tipo: "Passeio guiado em grupo",
+        descricao: "Atividade local com guia ou fornecedor validado.",
+        dica: "Confirme lotação, segurança e política de cancelamento."
+      }
+    ]
+  };
+}
 
 function demoTripPlan(form: TripRequest): TripPlan {
   return {
@@ -140,4 +175,39 @@ export async function generateTripPlan({
   if (provider === "claude") return callClaude(form);
 
   return demoTripPlan(form);
+}
+
+export async function generateCommunitySuggestions({
+  destino,
+  objetivo,
+  provider = (process.env.AI_PROVIDER as AiProvider) || "demo"
+}: {
+  destino: string;
+  objetivo: string;
+  provider?: AiProvider;
+}): Promise<CommunitySuggestion> {
+  if (provider === "demo") return demoCommunitySuggestion(destino, objetivo);
+
+  const prompt = buildCommunityPrompt(destino, objetivo);
+
+  if (provider === "openai" && process.env.OPENAI_API_KEY) {
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+        input: prompt
+      })
+    });
+    if (!response.ok) throw new Error(`OpenAI retornou erro ${response.status}`);
+    const data = await response.json();
+    const text = data.output_text || data.output?.[0]?.content?.[0]?.text;
+    if (!text) return demoCommunitySuggestion(destino, objetivo);
+    return JSON.parse(text) as CommunitySuggestion;
+  }
+
+  return demoCommunitySuggestion(destino, objetivo);
 }
