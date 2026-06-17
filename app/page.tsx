@@ -8,6 +8,7 @@ type AgentResponse = {
   melhoresOpcoes: ScoredOption[];
   contatosFornecedores: SupplierContactDraft[];
   proximasAcoes: string[];
+  skillsUsadas: string[];
 };
 
 export default function Home() {
@@ -213,6 +214,15 @@ export default function Home() {
               <ul>
                 {agentes.proximasAcoes.map((action) => (
                   <li key={action}>{action}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article>
+              <h3>Skills ativas</h3>
+              <ul>
+                {agentes.skillsUsadas.map((skill) => (
+                  <li key={skill}>{skill}</li>
                 ))}
               </ul>
             </article>

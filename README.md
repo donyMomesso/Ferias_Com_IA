@@ -44,6 +44,13 @@ Para usar IA real, configure uma das opções:
 - `AI_PROVIDER="gemini"` com `GEMINI_API_KEY`
 - `AI_PROVIDER="claude"` com `ANTHROPIC_API_KEY`
 
+Para busca web real, configure:
+
+- `SEARCH_PROVIDER="serper"`
+- `SERPER_API_KEY`
+
+Sem essa chave, o app usa busca demo e mantém a arquitetura de agentes funcionando.
+
 ## Banco de dados
 
 Com PostgreSQL configurado no `DATABASE_URL`:

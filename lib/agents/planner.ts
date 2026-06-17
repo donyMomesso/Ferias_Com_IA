@@ -27,6 +27,13 @@ export async function runPlannerAgents(request: TripRequest): Promise<PlannerRep
       "Comparar preço, localização, disponibilidade, conforto e risco de cada opção.",
       "Confirmar fornecedores locais antes de recomendar compra ou reserva.",
       "Salvar decisões no banco e gerar PDF final para o cliente."
+    ],
+    skillsUsed: [
+      "destination-intelligence",
+      "search-skill",
+      "weather-skill",
+      "option-evaluator",
+      "supplier-contact-draft"
     ]
   };
 }

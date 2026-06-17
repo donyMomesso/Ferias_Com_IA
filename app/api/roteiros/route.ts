@@ -14,7 +14,8 @@ export async function POST(request: Request) {
         achados: report.findings,
         melhoresOpcoes: report.bestOptions,
         contatosFornecedores: report.supplierDrafts,
-        proximasAcoes: report.nextAgentActions
+        proximasAcoes: report.nextAgentActions,
+        skillsUsadas: report.skillsUsed
       }
     });
   } catch (error) {

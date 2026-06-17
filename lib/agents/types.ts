@@ -48,6 +48,7 @@ export type PlannerReport = {
   bestOptions: ScoredOption[];
   supplierDrafts: SupplierContactDraft[];
   nextAgentActions: string[];
+  skillsUsed: string[];
 };
 
 export type AgentContext = {
