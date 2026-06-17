@@ -25,6 +25,7 @@ export type ResearchFinding = {
   estimatedCost?: string;
   locationHint?: string;
   contactHint?: string;
+  requiresHumanValidation?: boolean;
 };
 
 export type ScoredOption = ResearchFinding & {

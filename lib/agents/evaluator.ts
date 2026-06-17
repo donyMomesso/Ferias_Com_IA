@@ -15,7 +15,9 @@ export function scoreFindings(findings: ResearchFinding[]): ScoredOption[] {
     .map((finding) => {
       const baseScore = categoryWeights[finding.category];
       const confidenceBonus = Math.round(finding.confidence * 10);
-      const score = Math.min(100, baseScore + confidenceBonus - 5);
+      const sourceBonus = finding.source.startsWith("http") ? 4 : 0;
+      const validationPenalty = finding.requiresHumanValidation ? 8 : 0;
+      const score = Math.min(100, baseScore + confidenceBonus + sourceBonus - validationPenalty - 5);
 
       return {
         ...finding,
@@ -24,7 +26,9 @@ export function scoreFindings(findings: ResearchFinding[]): ScoredOption[] {
           finding.confidence * 100
         )}%.`,
         tradeoff:
-          finding.category === "passeio"
+          finding.requiresHumanValidation
+            ? "Precisa de confirmação humana antes de virar recomendação final."
+            : finding.category === "passeio"
             ? "Pode depender de clima e disponibilidade."
             : "Precisa ser confirmado com dados reais antes da compra."
       };

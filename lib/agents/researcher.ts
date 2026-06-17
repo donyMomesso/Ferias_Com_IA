@@ -1,36 +1,10 @@
+import { buildDestinationIntelligence } from "../sources/destinationSkill";
 import type { AgentContext, ResearchFinding } from "./types";
 
-export async function researchTripContext(context: AgentContext): Promise<ResearchFinding[]> {
+function buildPlanningHeuristics(context: AgentContext): ResearchFinding[] {
   const { request } = context;
 
   return [
-    {
-      category: "hospedagem",
-      title: `Base de hospedagem em ${request.destino}`,
-      description:
-        "Priorizar hospedagens com boa localização, cozinha ou café da manhã, estacionamento e acesso simples às atividades principais.",
-      source: "base-interna-demo",
-      confidence: 0.72,
-      estimatedCost: request.orcamento
-    },
-    {
-      category: "passeio",
-      title: "Passeio principal guiado",
-      description:
-        "Reservar a atividade mais importante da viagem com antecedência e deixar alternativas para clima ruim.",
-      source: "base-interna-demo",
-      confidence: 0.76,
-      locationHint: request.destino
-    },
-    {
-      category: "restaurante",
-      title: "Restaurantes locais com perfil familiar",
-      description:
-        "Selecionar restaurantes próximos ao roteiro do dia para reduzir deslocamento e evitar filas em horários de pico.",
-      source: "base-interna-demo",
-      confidence: 0.68,
-      estimatedCost: "médio"
-    },
     {
       category: "transporte",
       title: "Deslocamento com folga",
@@ -40,13 +14,28 @@ export async function researchTripContext(context: AgentContext): Promise<Resear
       confidence: 0.82
     },
     {
-      category: "fornecedor",
-      title: "Fornecedor local para experiência principal",
+      category: "seguranca",
+      title: "Validação antes da compra",
       description:
-        "Contato recomendado para confirmar disponibilidade, preço, duração, ponto de encontro e política de cancelamento.",
-      source: "base-interna-demo",
-      confidence: 0.7,
-      contactHint: "WhatsApp"
+        "Antes de recomendar reserva, confirmar reputação, endereço, política de cancelamento, inclusão de crianças e formas de pagamento.",
+      source: "politica-interna",
+      confidence: 0.9,
+      requiresHumanValidation: true
+    },
+    {
+      category: "hospedagem",
+      title: `Critérios de hospedagem em ${request.destino}`,
+      description:
+        "Priorizar boa localização, café da manhã ou cozinha, estacionamento, cancelamento flexível e acesso simples às atividades principais.",
+      source: "heuristica-planejador",
+      confidence: 0.78,
+      estimatedCost: request.orcamento
     }
   ];
+}
+
+export async function researchTripContext(context: AgentContext): Promise<ResearchFinding[]> {
+  const intelligence = await buildDestinationIntelligence(context.request);
+
+  return [...intelligence.findings, ...buildPlanningHeuristics(context)];
 }
