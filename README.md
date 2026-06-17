@@ -1,19 +1,15 @@
 # Férias com IA
 
-App para criar roteiros completos de viagem com inteligência artificial.
+MVP para criar roteiros completos de viagem com uma central de IA preparada para OpenAI, Gemini, Claude ou modo demo.
 
-## Ideia
-O usuário informa destino, datas, perfil da viagem, pessoas, orçamento e objetivos. O sistema gera:
+## O que já existe
 
-- roteiro dia a dia;
-- hospedagem;
-- passeios;
-- restaurantes;
-- contatos locais;
-- orçamento;
-- checklist;
-- PDF para impressão;
-- parceiros locais por destino.
+- Frontend em Next.js com formulário de geração de roteiro.
+- Endpoint `/api/roteiros` no próprio Next.js.
+- Backend Express opcional em `backend/src/server.ts`.
+- Central de IA em `lib/ai` com adaptadores.
+- Schema PostgreSQL com Prisma em `prisma/schema.prisma`.
+- Estrutura para viagens, roteiros gerados, usuários e parceiros locais.
 
 ## Rodar localmente
 
@@ -24,11 +20,44 @@ npm run dev
 
 Acesse: http://localhost:3000
 
+## Rodar a API Express opcional
+
+```bash
+npm run dev:api
+```
+
+A API sobe em: http://localhost:3333
+
+## Configurar ambiente
+
+Copie `.env.example` para `.env` e ajuste o que precisar:
+
+```bash
+cp .env.example .env
+```
+
+Por padrão, `AI_PROVIDER="demo"` funciona sem chave externa.
+
+Para usar IA real, configure uma das opções:
+
+- `AI_PROVIDER="openai"` com `OPENAI_API_KEY`
+- `AI_PROVIDER="gemini"` com `GEMINI_API_KEY`
+- `AI_PROVIDER="claude"` com `ANTHROPIC_API_KEY`
+
+## Banco de dados
+
+Com PostgreSQL configurado no `DATABASE_URL`:
+
+```bash
+npm run prisma:generate
+npm run prisma:migrate
+```
+
 ## Próximos módulos
 
-- Login
-- Banco de parceiros locais
-- Geração com IA
-- Exportar PDF
-- Painel administrativo
-- WhatsApp para parceiros
+- Login com email/senha ou social.
+- Persistir roteiro gerado no banco.
+- Cadastro de parceiros locais.
+- Exportação em PDF.
+- Painel administrativo.
+- Envio do roteiro por WhatsApp.
