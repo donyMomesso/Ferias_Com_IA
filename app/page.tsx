@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import type { ScoredOption, SupplierContactDraft } from "../lib/agents/types";
 import type { TripPlan, TripRequest } from "../lib/trips/types";
+
+type AgentResponse = {
+  melhoresOpcoes: ScoredOption[];
+  contatosFornecedores: SupplierContactDraft[];
+  proximasAcoes: string[];
+};
 
 export default function Home() {
   const [form, setForm] = useState<TripRequest>({
@@ -12,6 +19,7 @@ export default function Home() {
     orcamento: "Confortável econômico"
   });
   const [roteiro, setRoteiro] = useState<TripPlan | null>(null);
+  const [agentes, setAgentes] = useState<AgentResponse | null>(null);
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(false);
 
@@ -23,6 +31,7 @@ export default function Home() {
     setCarregando(true);
     setErro("");
     setRoteiro(null);
+    setAgentes(null);
 
     try {
       const response = await fetch("/api/roteiros", {
@@ -38,6 +47,7 @@ export default function Home() {
       }
 
       setRoteiro(data.roteiro);
+      setAgentes(data.agentes);
     } catch (error) {
       setErro(error instanceof Error ? error.message : "Erro inesperado.");
     } finally {
@@ -47,15 +57,42 @@ export default function Home() {
 
   return (
     <main className="container">
+      <header className="topbar">
+        <img
+          className="topbar-logo"
+          src="/brand/ferias-com-ia-logo.png"
+          alt="Férias com IA"
+        />
+        <p className="topbar-slogan">
+          <span>Você escolhe o destino.</span>
+          <strong>A IA cria a experiência.</strong>
+        </p>
+      </header>
+
       <section className="hero">
         <div>
-          <p className="eyebrow">MVP com central de IA</p>
-          <h1>Férias com IA</h1>
+          <p className="eyebrow">Planejamento inteligente de viagem</p>
+          <h1>Roteiros de viagem criados com IA</h1>
           <h2>Você escolhe o destino. A IA cria a experiência.</h2>
           <p>
             Monte roteiros completos com passeios, orçamento, checklist,
-            parceiros locais e base pronta para PDF.
+            fornecedores locais, comparação de opções e base pronta para PDF.
           </p>
+
+          <div className="hero-metrics" aria-label="Recursos principais">
+            <div>
+              <strong>7 dias</strong>
+              <span>roteiro organizado</span>
+            </div>
+            <div>
+              <strong>IA</strong>
+              <span>agentes de pesquisa</span>
+            </div>
+            <div>
+              <strong>PDF</strong>
+              <span>pronto para evoluir</span>
+            </div>
+          </div>
         </div>
 
         <div className="card">
@@ -136,6 +173,50 @@ export default function Home() {
               <li key={item}>{item}</li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {agentes && (
+        <section className="agent-panel">
+          <div>
+            <p className="eyebrow">Motor planejador</p>
+            <h2>Agentes trabalhando para o cliente</h2>
+          </div>
+
+          <div className="agent-grid">
+            <article>
+              <h3>Melhores opções</h3>
+              <ul>
+                {agentes.melhoresOpcoes.map((option) => (
+                  <li key={`${option.category}-${option.title}`}>
+                    <strong>{option.score}/100 - {option.title}</strong>
+                    <span>{option.reason} {option.tradeoff}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <article>
+              <h3>Contato com fornecedores</h3>
+              <ul>
+                {agentes.contatosFornecedores.map((draft) => (
+                  <li key={draft.supplierName}>
+                    <strong>{draft.supplierName}</strong>
+                    <span>{draft.message}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <article>
+              <h3>Próximas ações</h3>
+              <ul>
+                {agentes.proximasAcoes.map((action) => (
+                  <li key={action}>{action}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
         </section>
       )}
     </main>

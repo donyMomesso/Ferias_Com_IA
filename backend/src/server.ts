@@ -1,7 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import { generateTripPlan } from "../../lib/ai/adapters";
+import { runPlannerAgents } from "../../lib/agents/planner";
 import { tripRequestSchema } from "../../lib/trips/schema";
 
 const app = express();
@@ -17,9 +17,17 @@ app.get("/health", (_request, response) => {
 app.post("/roteiros", async (request, response) => {
   try {
     const form = tripRequestSchema.parse(request.body);
-    const roteiro = await generateTripPlan({ form });
+    const report = await runPlannerAgents(form);
 
-    response.json({ roteiro });
+    response.json({
+      roteiro: report.plan,
+      agentes: {
+        achados: report.findings,
+        melhoresOpcoes: report.bestOptions,
+        contatosFornecedores: report.supplierDrafts,
+        proximasAcoes: report.nextAgentActions
+      }
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Erro inesperado.";
     response.status(500).json({ error: message });
