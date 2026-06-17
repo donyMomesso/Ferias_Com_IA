@@ -33,6 +33,7 @@ body {
   background: var(--surface);
   color: var(--dark-2);
   line-height: 1.55;
+  overflow-x: hidden;
 }
 
 /* ─── NAVBAR ─── */
@@ -56,6 +57,15 @@ body {
   font-size: 18px;
   font-weight: 800;
   color: var(--dark);
+}
+.brand-logo {
+  width: 150px;
+  height: 46px;
+  object-fit: contain;
+}
+.brand-logo ~ .brand-icon,
+.brand-logo ~ .brand-name {
+  display: none;
 }
 .brand-icon { font-size: 22px; }
 .navbar-links {
@@ -85,12 +95,12 @@ body {
 /* ─── HERO ─── */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding-top: 64px;
+  overflow: visible;
+  padding: 88px 16px 54px;
 }
 .hero-bg {
   position: absolute;
@@ -115,11 +125,11 @@ body {
 }
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 20;
   width: 100%;
-  max-width: 900px;
+  max-width: 1220px;
   margin: 0 auto;
-  padding: 40px 24px 60px;
+  padding: 40px 0 60px;
   text-align: center;
   color: #fff;
 }
@@ -161,10 +171,84 @@ body {
   flex-direction: column;
   gap: 16px;
 }
+.travel-search-shell {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 12px;
+}
+.travel-search-main {
+  display: grid;
+  grid-template-columns: minmax(250px, 1.25fr) minmax(270px, 1.15fr) minmax(210px, .9fr) minmax(220px, .95fr) 150px;
+  gap: 0;
+  align-items: stretch;
+  background: #fff;
+  border: 4px solid #ffb000;
+  border-radius: 10px;
+  box-shadow: 0 18px 42px rgba(10,22,40,.24);
+  overflow: visible;
+  width: 100%;
+}
+.travel-search-main .destination-segment {
+  order: 1;
+  position: relative;
+  z-index: 5;
+}
+.travel-search-main .search-segment-group {
+  order: 2;
+}
+.travel-search-main .btn-generate {
+  order: 5;
+}
+.travel-search-main .search-objective {
+  order: 6;
+  grid-column: 1 / -1;
+  margin: 0;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  min-height: 84px;
+  padding: 14px 22px;
+}
 .search-row-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
+}
+.travel-search-main .search-row-3 {
+  display: contents;
+}
+.search-segment {
+  min-height: 86px;
+  justify-content: center;
+  padding: 12px 22px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.travel-search-main .search-objective,
+.travel-search-main .search-row-3 > .search-field {
+  min-height: 86px;
+  justify-content: center;
+  padding: 12px 22px;
+  min-width: 0;
+}
+.travel-search-main .dates-segment {
+  order: 2;
+}
+.travel-search-main .guests-segment {
+  order: 3;
+  position: relative;
+  z-index: 4;
+}
+.travel-search-main .search-row-3 > .search-field:nth-child(3) {
+  order: 4;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.travel-search-main .search-row-3 > .search-field {
+  border-right: 1px solid var(--border);
 }
 .search-field,
 .search-field-big,
@@ -186,28 +270,208 @@ body {
 .search-field-big input,
 .search-objective input,
 .search-field select {
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 14px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   font: inherit;
   font-size: 15px;
+  font-weight: 800;
   color: var(--dark-2);
   transition: border-color .15s, box-shadow .15s;
   width: 100%;
   background: #fff;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+.travel-search-main select {
+  font-size: 14px;
+  line-height: 1.2;
 }
 .search-field input:focus,
 .search-field-big input:focus,
 .search-objective input:focus,
 .search-field select:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(11,92,255,.12);
+  box-shadow: none;
 }
 .search-field-big input {
-  font-size: 17px;
-  padding: 14px 16px;
-  font-weight: 600;
+  font-size: 18px;
+  padding: 0;
+  font-weight: 800;
+}
+.destination-autocomplete {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 10px;
+  right: 10px;
+  z-index: 20;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 18px 36px rgba(10,22,40,.18);
+  overflow: hidden;
+}
+.destination-autocomplete button {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 11px 13px;
+  background: #fff;
+  color: var(--dark);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+}
+.destination-autocomplete button:last-child {
+  border-bottom: 0;
+}
+.destination-autocomplete button:hover {
+  background: var(--primary-light);
+}
+.destination-autocomplete span,
+.destination-autocomplete small {
+  display: block;
+}
+.destination-autocomplete span {
+  font-size: 14px;
+  font-weight: 900;
+}
+.destination-autocomplete small {
+  margin-top: 2px;
+  color: var(--mid);
+  font-size: 12px;
+}
+.destination-warning {
+  display: none;
+  margin-top: 8px;
+  color: #8a4f00;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: normal;
+}
+.date-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.date-picker-shell {
+  position: relative;
+  min-width: 0;
+}
+.date-display {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #d8e1ec;
+  border-radius: 6px;
+  padding: 7px 6px;
+  background: #f8fafc;
+  color: var(--dark-2);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  font-family: var(--font);
+  text-align: left;
+}
+.native-date-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+.date-helper {
+  min-height: 18px;
+  color: var(--dark-2);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.guests-segment input {
+  cursor: pointer;
+}
+.guest-picker {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: min(360px, calc(100vw - 32px));
+  z-index: 300;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(10,22,40,.22);
+  padding: 18px;
+  color: var(--dark-2);
+}
+.guest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+.guest-row strong {
+  font-size: 15px;
+}
+.stepper {
+  display: grid;
+  grid-template-columns: 42px 44px 42px;
+  align-items: center;
+  border: 1px solid #aebccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.stepper button {
+  border: 0;
+  background: #fff;
+  color: var(--primary);
+  font-size: 20px;
+  cursor: pointer;
+  height: 38px;
+}
+.stepper button:disabled {
+  color: #aebccc;
+  cursor: not-allowed;
+}
+.stepper span {
+  text-align: center;
+  font-weight: 800;
+}
+.children-ages {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.children-ages select {
+  border: 1px solid #aebccc;
+  border-radius: 6px;
+  padding: 9px;
+  font: inherit;
+}
+.guest-note {
+  color: var(--mid);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 10px 0 18px;
+}
+.guest-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+  font-size: 14px;
+}
+.guest-ok {
+  width: 100%;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  padding: 10px;
+  background: #fff;
+  color: var(--primary);
+  font-weight: 800;
+  cursor: pointer;
 }
 .btn-generate {
   width: 100%;
@@ -226,6 +490,16 @@ body {
   transition: opacity .15s, transform .1s, box-shadow .15s;
   box-shadow: 0 4px 14px rgba(11,92,255,.4);
   font-family: var(--font);
+}
+.travel-search-main .btn-generate {
+  width: auto;
+  min-height: 70px;
+  height: auto;
+  margin: 8px;
+  border-radius: 7px;
+  box-shadow: none;
+  font-size: 18px;
+  white-space: nowrap;
 }
 .btn-generate:hover:not(:disabled) {
   opacity: .92;
@@ -289,11 +563,12 @@ body {
 }
 .trending-card {
   position: relative;
-  aspect-ratio: 4/3;
+  min-height: 330px;
   border: none;
   border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
+  background: linear-gradient(135deg, #0b5cff 0%, #00a878 100%);
   background-size: cover;
   background-position: center;
   transition: transform .2s, box-shadow .2s;
@@ -303,20 +578,72 @@ body {
 .trending-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,22,40,.75) 0%, rgba(10,22,40,.1) 60%);
+  background: linear-gradient(to top, rgba(10,22,40,.92) 0%, rgba(10,22,40,.68) 48%, rgba(10,22,40,.12) 100%);
 }
 .trending-info {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
+  inset: auto 16px 16px;
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 7px;
+}
+.trending-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
 }
 .trending-emoji { font-size: 24px; }
-.trending-name { font-size: 18px; font-weight: 800; line-height: 1.1; }
+.trending-price {
+  border-radius: var(--radius-full);
+  padding: 5px 9px;
+  background: rgba(255,255,255,.16);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}
+.trending-name { font-size: 22px; font-weight: 900; line-height: 1.05; }
 .trending-state { font-size: 13px; opacity: .8; font-weight: 600; }
+.trending-promise {
+  color: rgba(255,255,255,.88);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.trending-support {
+  border-left: 3px solid var(--accent);
+  padding-left: 9px;
+  color: rgba(255,255,255,.78);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.trending-action {
+  align-self: flex-start;
+  margin-top: 4px;
+  border-radius: var(--radius-full);
+  padding: 8px 11px;
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+.travel-ecosystem {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.travel-ecosystem span {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 8px 12px;
+  background: #fff;
+  color: var(--mid);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
 
 /* ─── HOW IT WORKS ─── */
 .how-it-works {
@@ -325,6 +652,76 @@ body {
   max-width: 1160px;
   margin: 0 auto 0;
   padding: 72px 24px;
+}
+
+/* ─── HOME COMMUNITY CTA ─── */
+.home-community {
+  padding-top: 32px;
+}
+
+.home-community-content {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 28px;
+  align-items: center;
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+}
+
+.home-community h2 {
+  max-width: 560px;
+  color: var(--dark);
+  font-size: clamp(26px, 3.5vw, 42px);
+  line-height: 1.08;
+  margin-bottom: 12px;
+}
+
+.home-community p {
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+.home-community-cta {
+  display: inline-flex;
+  margin-top: 22px;
+  border-radius: var(--radius-full);
+  padding: 12px 18px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 900;
+}
+
+.home-community-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.home-community-cards article {
+  min-height: 180px;
+  border-radius: var(--radius);
+  padding: 18px;
+  background: var(--primary-light);
+  border: 1px solid rgba(11, 92, 255, .12);
+}
+
+.home-community-cards span,
+.home-community-cards strong {
+  display: block;
+}
+
+.home-community-cards span {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.home-community-cards strong {
+  color: var(--dark);
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 .steps-grid {
   display: grid;
@@ -945,6 +1342,47 @@ body {
   margin-right: 8px;
 }
 .opt-reason { color: rgba(255,255,255,.6); font-size: 13px; margin-top: 4px; }
+.trust-source-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.trust-source {
+  display: block;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.86);
+  text-decoration: none;
+}
+.trust-source:hover {
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.1);
+}
+.trust-source strong {
+  display: block;
+  margin: 6px 0 4px;
+  color: #fff;
+  font-size: 14px;
+}
+.trust-source p,
+.trust-source small {
+  display: block;
+  color: rgba(255,255,255,.62);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.trust-kind {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255,122,0,.18);
+  color: #ffd5a3;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
 .skill-tag {
   display: inline-block;
   background: rgba(11,92,255,.3);
@@ -953,6 +1391,64 @@ body {
   padding: 4px 12px;
   font-size: 12px;
   color: #93b4ff;
+}
+.skill-work-list {
+  display: grid;
+  gap: 12px;
+}
+.skill-work-item {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 14px;
+  background: rgba(255,255,255,.06);
+}
+.skill-work-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.skill-work-head strong {
+  color: #fff;
+  font-size: 14px;
+}
+.skill-status {
+  border-radius: var(--radius-full);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.skill-status.done {
+  background: rgba(0,196,140,.18);
+  color: #92ffd7;
+}
+.skill-status.needs-review {
+  background: rgba(255,122,0,.2);
+  color: #ffd0a1;
+}
+.skill-status.waiting {
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.7);
+}
+.skill-work-item p,
+.skill-work-item small,
+.skill-work-item em {
+  display: block;
+  color: rgba(255,255,255,.64);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.skill-work-item small {
+  margin-top: 8px;
+  color: rgba(255,255,255,.82);
+}
+.skill-work-item em {
+  margin-top: 6px;
+  font-style: normal;
+  color: #b7ccff;
 }
 
 /* ─── SAVED SECTION ─── */
@@ -1036,11 +1532,35 @@ body {
 @media (max-width: 1024px) {
   .trending-grid { grid-template-columns: repeat(2, 1fr); }
   .agentes-grid { grid-template-columns: 1fr; }
+  .travel-search-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .travel-search-main .destination-segment { grid-column: 1; }
+  .travel-search-main .dates-segment { grid-column: 2; }
+  .travel-search-main .guests-segment { grid-column: 1; }
+  .travel-search-main .search-row-3 > .search-field:nth-child(3) { grid-column: 2; }
+  .travel-search-main .btn-generate,
+  .travel-search-main .search-objective {
+    grid-column: 1 / -1;
+  }
+  .search-segment,
+  .travel-search-main .search-row-3 > .search-field {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .travel-search-main .destination-segment,
+  .travel-search-main .guests-segment {
+    border-right: 1px solid var(--border);
+  }
+  .travel-search-main .btn-generate {
+    min-height: 58px;
+  }
 }
 @media (max-width: 900px) {
   .roteiro-layout { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr; }
   .social-grid, .loading-row { grid-template-columns: 1fr; }
+  .home-community-content { grid-template-columns: 1fr; }
   .saved-grid { grid-template-columns: 1fr 1fr; }
   .fotos-grid { grid-template-columns: repeat(2, 1fr); }
   .checklist-grid { grid-template-columns: 1fr; }
@@ -1048,10 +1568,48 @@ body {
   .board-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
-  .navbar { padding: 0 16px; }
+  .navbar { padding: 0 12px; height: 58px; }
+  .brand-logo { width: 118px; height: 40px; }
+  .btn-nav-cta { padding: 8px 12px; font-size: 12px; }
   .navbar-links { display: none; }
   .search-row-3 { grid-template-columns: 1fr; }
-  .hero-content { padding: 24px 16px 40px; }
+  .travel-search-main {
+    grid-template-columns: 1fr;
+    border-width: 3px;
+  }
+  .travel-search-main .destination-segment,
+  .travel-search-main .dates-segment,
+  .travel-search-main .guests-segment,
+  .travel-search-main .search-row-3 > .search-field:nth-child(3),
+  .travel-search-main .btn-generate,
+  .travel-search-main .search-objective {
+    grid-column: 1;
+  }
+  .travel-search-main .destination-segment,
+  .travel-search-main .guests-segment {
+    border-right: 0;
+  }
+  .search-segment,
+  .travel-search-main .search-objective,
+  .travel-search-main .search-row-3 > .search-field {
+    min-height: auto;
+    padding: 14px 16px;
+  }
+  .date-inputs { grid-template-columns: 1fr; }
+  .destination-autocomplete {
+    left: 0;
+    right: 0;
+  }
+  .guest-picker {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-community-content { padding: 24px; }
+  .home-community-cards { grid-template-columns: 1fr; }
+  .hero { padding: 72px 12px 40px; }
+  .hero-content { padding: 24px 0 40px; }
+  .hero-title { font-size: clamp(30px, 10vw, 44px); }
+  .hero-subtitle br { display: none; }
   .trending-grid { grid-template-columns: 1fr 1fr; }
   .saved-grid { grid-template-columns: 1fr; }
   .fotos-grid { grid-template-columns: 1fr 1fr; }
@@ -1066,8 +1624,31 @@ body {
   .how-it-works { padding: 48px 16px; }
 }
 @media (max-width: 420px) {
+  .navbar-brand { min-width: 0; }
+  .btn-nav-cta { max-width: 132px; white-space: nowrap; }
+  .travel-search-main .btn-generate {
+    margin: 8px;
+    min-height: 54px;
+    font-size: 16px;
+  }
+  .guest-picker {
+    width: calc(100vw - 24px);
+    padding: 14px;
+  }
+  .guest-row {
+    gap: 10px;
+  }
+  .stepper {
+    grid-template-columns: 36px 38px 36px;
+  }
+  .children-ages {
+    grid-template-columns: 1fr;
+  }
   .trending-grid { grid-template-columns: 1fr; }
   .fotos-grid { grid-template-columns: 1fr; }
+  .saved-btns {
+    flex-direction: column;
+  }
 }
 
 /* ─── COMMUNITY MODULE ─── */
@@ -1639,4 +2220,228 @@ body {
 }
 @media (max-width: 600px) {
   .pois-grid { grid-template-columns: 1fr; }
+}
+
+/* GUIA DO PESCADOR */
+.fishing-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(0,196,140,.18), transparent 34%),
+    linear-gradient(180deg, #f8fafc 0%, #eef7f2 100%);
+  color: var(--dark-2);
+}
+.fishing-nav {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.fishing-brand img {
+  width: 150px;
+  height: 48px;
+  object-fit: contain;
+}
+.fishing-nav nav {
+  display: flex;
+  gap: 18px;
+  color: var(--mid);
+  font-size: 14px;
+  font-weight: 800;
+}
+.fishing-hero,
+.fishing-section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 46px 24px;
+}
+.fishing-hero {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 32px;
+  align-items: center;
+}
+.fishing-hero h1 {
+  max-width: 720px;
+  color: var(--dark);
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: .98;
+  font-weight: 950;
+  margin: 10px 0 18px;
+}
+.fishing-hero p {
+  max-width: 680px;
+  color: var(--mid);
+  font-size: 18px;
+  line-height: 1.7;
+}
+.fishing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.fishing-actions a {
+  border-radius: var(--radius-full);
+  padding: 12px 18px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 900;
+}
+.fishing-actions a + a {
+  background: #fff;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+.fishing-index-card,
+.fish-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-md);
+}
+.fishing-index-card {
+  padding: 26px;
+}
+.fishing-index-card > span {
+  color: var(--light);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.fishing-index-card h2 {
+  margin-top: 8px;
+  color: var(--dark);
+  font-size: 30px;
+  line-height: 1.1;
+}
+.fishing-index-card p {
+  margin-top: 6px;
+  color: var(--mid);
+  font-size: 14px;
+}
+.fish-score-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+.fish-score-head {
+  display: flex;
+  justify-content: space-between;
+  color: var(--dark);
+  font-size: 14px;
+}
+.fish-score-bar {
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.fish-score-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+}
+.fish-species-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.fish-card {
+  padding: 22px;
+}
+.fish-card h3 {
+  color: var(--dark);
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+.fish-card p {
+  color: var(--mid);
+  line-height: 1.6;
+  margin-top: 8px;
+}
+.fishing-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.sonar-screen {
+  margin-top: 18px;
+  border-radius: var(--radius);
+  background: #071423;
+  color: #76ffbc;
+  padding: 18px;
+  font-family: Consolas, monospace;
+  line-height: 1.7;
+}
+.fish-checklist {
+  display: grid;
+  gap: 8px;
+}
+.fish-checklist span {
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--dark-2);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.pilot-list {
+  display: grid;
+  gap: 12px;
+}
+.pilot-card {
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px;
+}
+.pilot-card strong {
+  color: var(--dark);
+}
+.pilot-card span {
+  display: block;
+  margin-top: 8px;
+  color: var(--mid);
+  font-size: 13px;
+}
+.pilot-card button {
+  margin-top: 12px;
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .fishing-hero,
+  .fishing-tools-grid {
+    grid-template-columns: 1fr;
+  }
+  .fish-species-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .fishing-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .fishing-nav nav {
+    flex-wrap: wrap;
+  }
+  .fishing-hero,
+  .fishing-section {
+    padding: 32px 16px;
+  }
+  .fishing-actions {
+    flex-direction: column;
+  }
 }

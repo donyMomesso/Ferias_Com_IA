@@ -98,11 +98,11 @@ export async function fetchDestinationPhotos(
   const pexels = await fetchPexelsPhotos(destination, count);
   if (pexels.length >= 3) return pexels;
 
-  const wiki = await fetchWikipediaPhotos(destination, count);
-  if (wiki.length >= 2) return wiki;
-
   const unsplash = await fetchUnsplashPhotos(destination, count);
   if (unsplash.length >= 2) return unsplash;
+
+  const wiki = await fetchWikipediaPhotos(destination, count);
+  if (wiki.length >= 2) return wiki;
 
   return picsumFallback(destination, count);
 }
@@ -112,13 +112,13 @@ export async function heroPhotoUrl(destination: string): Promise<string> {
   const pexels = await fetchPexelsPhotos(destination, 1);
   if (pexels[0]?.url) return pexels[0].url;
 
-  // Wikipedia hero
-  const wiki = await fetchWikipediaHeroPhoto(destination);
-  if (wiki) return wiki;
-
   // Unsplash hero
   const unsplash = await fetchUnsplashPhotos(destination, 1);
   if (unsplash[0]?.url) return unsplash[0].url;
+
+  // Wikipedia hero
+  const wiki = await fetchWikipediaHeroPhoto(destination);
+  if (wiki) return wiki;
 
   return picsumUrl(`${destination}-hero`, 1600, 900);
 }

@@ -47,6 +47,8 @@ export async function POST(request: Request) {
         achados: report.findings,
         melhoresOpcoes: report.bestOptions,
         contatosFornecedores: report.supplierDrafts,
+        fontesConfianca: report.trustSources,
+        trabalhoSkills: report.skillWork,
         proximasAcoes: report.nextAgentActions,
         skillsUsadas: report.skillsUsed
       },

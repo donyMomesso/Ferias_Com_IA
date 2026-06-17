@@ -16,6 +16,13 @@ export type ResearchCategory =
   | "seguranca"
   | "fornecedor";
 
+export type TrustSourceKind =
+  | "voo"
+  | "companhia-aerea"
+  | "hospedagem"
+  | "avaliacao"
+  | "mapa";
+
 export type ResearchFinding = {
   category: ResearchCategory;
   title: string;
@@ -42,11 +49,34 @@ export type SupplierContactDraft = {
   objective: string;
 };
 
+export type TravelTrustSource = {
+  kind: TrustSourceKind;
+  name: string;
+  url: string;
+  description: string;
+  verificationTip: string;
+  confidence: number;
+};
+
+export type SkillWorkStatus = "done" | "needs-review" | "waiting";
+
+export type SkillWorkItem = {
+  id: string;
+  name: string;
+  role: AgentRole;
+  status: SkillWorkStatus;
+  mission: string;
+  result: string;
+  clientBenefit: string;
+};
+
 export type PlannerReport = {
   plan: TripPlan;
   findings: ResearchFinding[];
   bestOptions: ScoredOption[];
   supplierDrafts: SupplierContactDraft[];
+  trustSources: TravelTrustSource[];
+  skillWork: SkillWorkItem[];
   nextAgentActions: string[];
   skillsUsed: string[];
 };

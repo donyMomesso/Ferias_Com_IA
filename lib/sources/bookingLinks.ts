@@ -9,23 +9,43 @@ export interface BookingLinks {
 }
 
 const MONTHS_PT: Record<string, number> = {
-  janeiro: 1, fevereiro: 2, março: 3, abril: 4, maio: 5, junho: 6,
-  julho: 7, agosto: 8, setembro: 9, outubro: 10, novembro: 11, dezembro: 12
+  janeiro: 1,
+  fevereiro: 2,
+  marco: 3,
+  "março": 3,
+  abril: 4,
+  maio: 5,
+  junho: 6,
+  julho: 7,
+  agosto: 8,
+  setembro: 9,
+  outubro: 10,
+  novembro: 11,
+  dezembro: 12
 };
+
+function toIsoDate(year: string, month: number, day: string) {
+  return `${year}-${String(month).padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
 
 function parseTripDates(datas: string): { checkIn?: string; checkOut?: string } {
   // "10 a 17 de julho" | "10 a 17 de julho de 2026"
-  const m = datas.match(/(\d{1,2})\s+a\s+(\d{1,2})\s+de\s+(\w+)(?:\s+de\s+(\d{4}))?/i);
-  if (!m) return {};
-  const [, d1, d2, mon, yr] = m;
-  const month = MONTHS_PT[mon.toLowerCase()];
-  if (!month) return {};
-  const year = yr || new Date().getFullYear().toString();
-  const mm = String(month).padStart(2, "0");
-  return {
-    checkIn: `${year}-${mm}-${d1.padStart(2, "0")}`,
-    checkOut: `${year}-${mm}-${d2.padStart(2, "0")}`
-  };
+  const sameMonth = datas.match(
+    /(\d{1,2})\s+a\s+(\d{1,2})\s+de\s+([\wç]+)(?:\s+de\s+(\d{4}))?/i
+  );
+
+  if (sameMonth) {
+    const [, d1, d2, mon, yr] = sameMonth;
+    const month = MONTHS_PT[mon.toLowerCase()];
+    if (!month) return {};
+    const year = yr || new Date().getFullYear().toString();
+    return {
+      checkIn: toIsoDate(year, month, d1),
+      checkOut: toIsoDate(year, month, d2)
+    };
+  }
+
+  return {};
 }
 
 function parseAdults(pessoas: string): number {
@@ -57,7 +77,7 @@ export function generateBookingLinks(params: {
     googleFlights: `https://www.google.com/travel/flights?q=${encodeURIComponent("voos para " + destination)}`,
     skyscanner: `https://www.skyscanner.com.br/flights-to/${dest.toLowerCase().replace(/%20/g, "-")}/voos-baratos-para-${dest.toLowerCase().replace(/%20/g, "-")}.html`,
     tripadvisor: `https://www.tripadvisor.com.br/Search?q=${dest}`,
-    googleHotels: `https://www.google.com/travel/hotels?q=${encodeURIComponent("hotéis em " + destination)}`,
+    googleHotels: `https://www.google.com/travel/hotels?q=${encodeURIComponent("hoteis em " + destination)}`,
     googleMaps: `https://www.google.com/maps/search/${dest}+pontos+turisticos`
   };
 }

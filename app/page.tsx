@@ -47,6 +47,221 @@ const TRENDING = [
   { name: "Gramado - RS", emoji: "🍂", seed: "gramado-autumn" }
 ];
 
+const TRENDING_DETAILS: Record<
+  string,
+  { price: string; promise: string; support: string }
+> = {
+  "Fernando de Noronha - PE": {
+    price: "rota a partir de R$ 4.900",
+    promise: "mar, trilhas e fotos que viram memoria de familia",
+    support: "viajantes e guias locais para chegar com mais seguranca"
+  },
+  "Bonito - MS": {
+    price: "rota a partir de R$ 2.800",
+    promise: "flutuacao, natureza e passeios organizados por nivel",
+    support: "rede de apoio para escolher agencias e horarios certos"
+  },
+  "Chapada Diamantina - BA": {
+    price: "rota a partir de R$ 2.600",
+    promise: "cachoeiras, mirantes e conexao real com a natureza",
+    support: "grupos e guias ajudam quem acha que nao consegue fazer trilha"
+  },
+  "Lençóis Maranhenses - MA": {
+    price: "rota a partir de R$ 3.200",
+    promise: "lagoas, dunas e uma viagem que parece impossivel",
+    support: "apoio para combinar transporte, passeios e hospedagem"
+  },
+  "LenÃ§Ã³is Maranhenses - MA": {
+    price: "rota a partir de R$ 3.200",
+    promise: "lagoas, dunas e uma viagem que parece impossivel",
+    support: "apoio para combinar transporte, passeios e hospedagem"
+  },
+  "Rio de Janeiro - RJ": {
+    price: "rota a partir de R$ 1.900",
+    promise: "praia, cultura e experiencias para criar lacos",
+    support: "dicas de regioes, deslocamento e programas mais seguros"
+  },
+  "Gramado - RS": {
+    price: "rota a partir de R$ 2.300",
+    promise: "friozinho, gastronomia e descanso para viver junto",
+    support: "roteiro familiar com hospedagem, passeios e economia"
+  }
+};
+
+const DESTINATION_SUGGESTIONS = [
+  "Fernando de Noronha - PE",
+  "Bonito - MS",
+  "Chapada Diamantina - BA",
+  "Lençóis Maranhenses - MA",
+  "Lencois Maranhenses - MA",
+  "Rio de Janeiro - RJ",
+  "Gramado - RS",
+  "Foz do Iguacu - PR",
+  "Maceio - AL",
+  "Porto de Galinhas - PE",
+  "Jericoacoara - CE",
+  "Cananeia - SP",
+  "Praia da Maranduba - SP",
+  "Ubatuba - SP",
+  "Ilha Comprida - SP",
+  "Campos do Jordao - SP",
+  "Florianopolis - SC",
+  "Balneario Camboriu - SC",
+  "Pantanal - MS",
+  "Capitolio - MG"
+];
+
+const EXTRA_DESTINATION_SUGGESTIONS = [
+  "Sao Paulo - SP",
+  "Ilhabela - SP",
+  "Sao Sebastiao - SP",
+  "Maresias - SP",
+  "Caraguatatuba - SP",
+  "Guaruja - SP",
+  "Santos - SP",
+  "Bertioga - SP",
+  "Ribeirao Preto - SP",
+  "Campinas - SP",
+  "Aparecida - SP",
+  "Socorro - SP",
+  "Brotas - SP",
+  "Paraty - RJ",
+  "Angra dos Reis - RJ",
+  "Buzios - RJ",
+  "Arraial do Cabo - RJ",
+  "Cabo Frio - RJ",
+  "Petropolis - RJ",
+  "Visconde de Maua - RJ",
+  "Teresopolis - RJ",
+  "Ouro Preto - MG",
+  "Tiradentes - MG",
+  "Monte Verde - MG",
+  "Serra do Cipo - MG",
+  "Belo Horizonte - MG",
+  "Diamantina - MG",
+  "Salvador - BA",
+  "Porto Seguro - BA",
+  "Trancoso - BA",
+  "Itacare - BA",
+  "Morro de Sao Paulo - BA",
+  "Praia do Forte - BA",
+  "Ilheus - BA",
+  "Recife - PE",
+  "Olinda - PE",
+  "Carneiros - PE",
+  "Maragogi - AL",
+  "Sao Miguel dos Milagres - AL",
+  "Penedo - AL",
+  "Aracaju - SE",
+  "Fortaleza - CE",
+  "Canoa Quebrada - CE",
+  "Aquiraz - CE",
+  "Natal - RN",
+  "Pipa - RN",
+  "Joao Pessoa - PB",
+  "Campina Grande - PB",
+  "Sao Luis - MA",
+  "Barreirinhas - MA",
+  "Atins - MA",
+  "Parnaiba - PI",
+  "Delta do Parnaiba - PI",
+  "Manaus - AM",
+  "Presidente Figueiredo - AM",
+  "Alter do Chao - PA",
+  "Belem - PA",
+  "Ilha do Marajo - PA",
+  "Jalapao - TO",
+  "Palmas - TO",
+  "Brasilia - DF",
+  "Pirenopolis - GO",
+  "Chapada dos Veadeiros - GO",
+  "Caldas Novas - GO",
+  "Goiania - GO",
+  "Cuiaba - MT",
+  "Nobres - MT",
+  "Chapada dos Guimaraes - MT",
+  "Campo Grande - MS",
+  "Corumba - MS",
+  "Curitiba - PR",
+  "Ilha do Mel - PR",
+  "Morretes - PR",
+  "Londrina - PR",
+  "Joinville - SC",
+  "Blumenau - SC",
+  "Pomerode - SC",
+  "Bombinhas - SC",
+  "Garopaba - SC",
+  "Praia do Rosa - SC",
+  "Urubici - SC",
+  "Porto Alegre - RS",
+  "Bento Goncalves - RS",
+  "Canela - RS",
+  "Cambara do Sul - RS",
+  "Torres - RS"
+];
+
+const ALL_DESTINATION_SUGGESTIONS = Array.from(
+  new Set([...DESTINATION_SUGGESTIONS, ...EXTRA_DESTINATION_SUGGESTIONS])
+);
+
+const MONTHS = [
+  "janeiro",
+  "fevereiro",
+  "marco",
+  "abril",
+  "maio",
+  "junho",
+  "julho",
+  "agosto",
+  "setembro",
+  "outubro",
+  "novembro",
+  "dezembro"
+];
+
+function formatDateLabel(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return "";
+  return `${day} de ${MONTHS[month - 1]} de ${year}`;
+}
+
+function formatTripDates(start: string, end: string) {
+  if (start && end) {
+    const [startYear, startMonth, startDay] = start.split("-").map(Number);
+    const [endYear, endMonth, endDay] = end.split("-").map(Number);
+    if (startYear === endYear && startMonth === endMonth) {
+      return `${startDay} a ${endDay} de ${MONTHS[startMonth - 1]} de ${startYear}`;
+    }
+    return `${formatDateLabel(start)} a ${formatDateLabel(end)}`;
+  }
+  if (start) return `A partir de ${formatDateLabel(start)}`;
+  if (end) return `Ate ${formatDateLabel(end)}`;
+  return "";
+}
+
+function normalizeText(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function formatPtDateInput(value: string) {
+  const [year, month, day] = value.split("-");
+  if (!year || !month || !day) return "";
+  return `${day}/${month}/${year}`;
+}
+
+function parsePtDateInput(value: string) {
+  const clean = value.replace(/\D/g, "").slice(0, 8);
+  if (clean.length < 8) return "";
+  const day = clean.slice(0, 2);
+  const month = clean.slice(2, 4);
+  const year = clean.slice(4, 8);
+  return `${year}-${month}-${day}`;
+}
+
 const TAB_LABELS: Record<string, string> = {
   roteiro: "📋 Roteiro",
   reserve: "✈️ Reserve",
@@ -58,7 +273,7 @@ const TAB_LABELS: Record<string, string> = {
   agentes: "🤖 Agentes"
 };
 
-const DEFAULT_HERO = "https://picsum.photos/seed/travel-brasil/1600/900";
+const DEFAULT_HERO = "/banner-hero.svg";
 
 export default function Home() {
   const [form, setForm] = useState<TripRequest>({
@@ -69,6 +284,15 @@ export default function Home() {
     orcamento: "Confortável econômico"
   });
 
+  const [dataInicio, setDataInicio] = useState("");
+  const [dataFim, setDataFim] = useState("");
+  const [destinoFocado, setDestinoFocado] = useState(false);
+  const [guestPickerOpen, setGuestPickerOpen] = useState(false);
+  const [adultos, setAdultos] = useState(2);
+  const [criancas, setCriancas] = useState(0);
+  const [quartos, setQuartos] = useState(1);
+  const [idadesCriancas, setIdadesCriancas] = useState<string[]>([]);
+  const [viajandoPets, setViajandoPets] = useState(false);
   const [roteiro, setRoteiro] = useState<TripPlan | null>(null);
   const [agentes, setAgentes] = useState<AgentResponse | null>(null);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -78,6 +302,7 @@ export default function Home() {
   const [carregando, setCarregando] = useState(false);
   const [activeTab, setActiveTab] = useState("roteiro");
   const [heroUrl, setHeroUrl] = useState(DEFAULT_HERO);
+  const [trendingImages, setTrendingImages] = useState<Record<string, string>>({});
   const [destinationPhotos, setDestinationPhotos] = useState<DestinationPhoto[]>([]);
   const [socialPosts, setSocialPosts] = useState<SocialPost[]>([]);
   const [bookingLinks, setBookingLinks] = useState<BookingLinks | null>(null);
@@ -101,6 +326,8 @@ export default function Home() {
   const [backupCarregando, setBackupCarregando] = useState(false);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dataInicioInputRef = useRef<HTMLInputElement | null>(null);
+  const dataFimInputRef = useRef<HTMLInputElement | null>(null);
   const tripKey = tripKeyFromDestination(form.destino || roteiro?.destino || "viagem");
   const previsao = calculateForecast({
     plannedBudget: orcamentoPrevisto,
@@ -116,6 +343,20 @@ export default function Home() {
       sum + section.items.filter((item) => checklistState[item.id]).length,
     0
   );
+  const destinoNormalizado = normalizeText(form.destino);
+  const destinationMatches = ALL_DESTINATION_SUGGESTIONS.filter((destination) =>
+    normalizeText(destination).includes(destinoNormalizado)
+  ).slice(0, 6);
+  const destinoSelecionado = ALL_DESTINATION_SUGGESTIONS.some(
+    (destination) => normalizeText(destination) === destinoNormalizado
+  );
+  const showDestinationAutocomplete =
+    destinoFocado && form.destino.length > 0 && destinationMatches.length > 0;
+  const showDestinationWarning =
+    form.destino.length >= 3 && !destinoSelecionado;
+  const guestsSummary = `${adultos} ${adultos === 1 ? "adulto" : "adultos"}${
+    criancas > 0 ? ` · ${criancas} ${criancas === 1 ? "crianca" : "criancas"}` : ""
+  } · ${quartos} ${quartos === 1 ? "quarto" : "quartos"}`;
 
   useEffect(() => {
     carregarSalvos();
@@ -126,6 +367,19 @@ export default function Home() {
       .then((d) => setSocialPosts(d.posts || []))
       .catch(() => {})
       .finally(() => setSocialCarregando(false));
+
+    Promise.all(
+      TRENDING.map((destination) =>
+        fetch(`/api/fotos?q=${encodeURIComponent(destination.name)}&mode=hero`)
+          .then((response) => response.json())
+          .then((data) => [destination.name, data.heroUrl || ""] as const)
+          .catch(() => [destination.name, ""] as const)
+      )
+    ).then((entries) => {
+      setTrendingImages(
+        Object.fromEntries(entries.filter(([, url]) => Boolean(url)))
+      );
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -171,9 +425,79 @@ export default function Home() {
     setForm((atual) => ({ ...atual, [campo]: valor }));
   }
 
+  function atualizarDatas(campo: "inicio" | "fim", valor: string) {
+    const inicio = campo === "inicio" ? valor : dataInicio;
+    let fim = campo === "fim" ? valor : dataFim;
+
+    if (inicio && fim && fim < inicio) {
+      fim = "";
+      setDataFim("");
+    }
+
+    if (campo === "inicio") setDataInicio(valor);
+    if (campo === "fim") setDataFim(valor);
+
+    setForm((atual) => ({
+      ...atual,
+      datas: formatTripDates(inicio, fim)
+    }));
+  }
+
+  function abrirCalendario(ref: { current: HTMLInputElement | null }) {
+    const input = ref.current;
+    if (!input) return;
+    if (typeof input.showPicker === "function") {
+      input.showPicker();
+      return;
+    }
+    input.click();
+  }
+
+  function atualizarViajantes(next: {
+    adultos?: number;
+    criancas?: number;
+    quartos?: number;
+    idades?: string[];
+  }) {
+    const nextAdultos = Math.max(1, next.adultos ?? adultos);
+    const nextCriancas = Math.max(0, next.criancas ?? criancas);
+    const nextQuartos = Math.max(1, next.quartos ?? quartos);
+    const nextIdades = next.idades ?? idadesCriancas;
+
+    setAdultos(nextAdultos);
+    setCriancas(nextCriancas);
+    setQuartos(nextQuartos);
+    setIdadesCriancas(nextIdades.slice(0, nextCriancas));
+
+    setForm((atual) => ({
+      ...atual,
+      pessoas: `${nextAdultos} ${nextAdultos === 1 ? "adulto" : "adultos"}${
+        nextCriancas > 0
+          ? ` + ${nextCriancas} ${nextCriancas === 1 ? "crianca" : "criancas"}`
+          : ""
+      } · ${nextQuartos} ${nextQuartos === 1 ? "quarto" : "quartos"}`
+    }));
+  }
+
   function escolherTrending(name: string, seed: string) {
-    setForm((atual) => ({ ...atual, destino: name }));
-    setHeroUrl(`https://picsum.photos/seed/${seed}/1600/900`);
+    const knownDestination =
+      ALL_DESTINATION_SUGGESTIONS.find(
+        (destination) => normalizeText(destination) === normalizeText(name)
+      ) ||
+      ALL_DESTINATION_SUGGESTIONS.find((destination) => {
+        const [city] = destination.split(" - ");
+        return normalizeText(name).includes(normalizeText(city));
+      }) ||
+      name;
+
+    setForm((atual) => ({ ...atual, destino: knownDestination }));
+    if (trendingImages[knownDestination]) setHeroUrl(trendingImages[knownDestination]);
+  }
+
+  function selecionarDestino(destination: string) {
+    setForm((atual) => ({ ...atual, destino: destination }));
+    setDestinoFocado(false);
+    if (trendingImages[destination]) setHeroUrl(trendingImages[destination]);
   }
 
   async function fetchMedia(destination: string) {
@@ -197,6 +521,11 @@ export default function Home() {
 
   async function gerar() {
     if (!form.destino) return;
+    if (!destinoSelecionado) {
+      setErro("Escolha um destino da sugestao para evitar erro de escrita.");
+      setDestinoFocado(true);
+      return;
+    }
     setCarregando(true);
     setErro("");
     setStatus("");
@@ -390,16 +719,81 @@ export default function Home() {
     });
   }
 
+  function renderDestinosSection() {
+    return (
+      <section className="section trending" id="destinos">
+        <div className="section-header">
+          <p className="eyebrow">Explore o Brasil</p>
+          <h2>Destinos em alta agora</h2>
+          <p className="section-sub">
+            Rotas possiveis, custos estimados e rede de apoio para voce
+            viajar com mais seguranca, mesmo achando que ainda esta longe.
+          </p>
+        </div>
+        <div className="trending-grid">
+          {TRENDING.map((d) => {
+            const details = TRENDING_DETAILS[d.name];
+
+            return (
+              <button
+                key={d.name}
+                className="trending-card"
+                onClick={() => escolherTrending(d.name, d.seed)}
+                style={{
+                  backgroundImage: trendingImages[d.name]
+                    ? `url(${trendingImages[d.name]})`
+                    : undefined
+                }}
+              >
+                <div className="trending-overlay" />
+                <div className="trending-info">
+                  <div className="trending-topline">
+                    <span className="trending-emoji">{d.emoji}</span>
+                    <span className="trending-price">
+                      {details?.price || "rota personalizada"}
+                    </span>
+                  </div>
+                  <span className="trending-name">{d.name.split(" - ")[0]}</span>
+                  <span className="trending-state">{d.name.split(" - ")[1]}</span>
+                  <p className="trending-promise">
+                    {details?.promise || "ferias planejadas com apoio real"}
+                  </p>
+                  <span className="trending-support">
+                    {details?.support || "comunidade e fornecedores para ajudar"}
+                  </span>
+                  <span className="trending-action">Planejar essa viagem</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+        <div className="travel-ecosystem">
+          <span>Rede de apoio</span>
+          <span>Fotos e mapas reais</span>
+          <span>Custos estimados</span>
+          <span>Fornecedores para conferir</span>
+          <span>Comunidade de quem ja foi</span>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <main>
       {/* ── NAVBAR ── */}
       <nav className="navbar">
         <div className="navbar-brand">
-          <span className="brand-icon">✈️</span>
-          <span className="brand-name">Férias com IA</span>
+          <img
+            src="/logo-oficial.svg"
+            alt="Férias com IA"
+            className="brand-logo"
+            style={{ height: 44, width: "auto" }}
+          />
         </div>
         <div className="navbar-links">
           <a href="#destinos">Destinos</a>
+          <a href="#comunidade">Comunidade</a>
+          <a href="/guia-do-pescador">Guia do Pescador</a>
           <a href="#como-funciona">Como funciona</a>
         </div>
         <button
@@ -435,32 +829,154 @@ export default function Home() {
                 dicas de viajantes e orçamento — em segundos.
               </p>
 
-              <div className="search-card" id="search-form">
-                <div className="search-field-big">
-                  <label>Para onde você quer ir?</label>
+              <div className="search-card travel-search-shell" id="search-form">
+                <div className="travel-search-main">
+                <div className="search-field-big search-segment destination-segment">
+                  <label>Ponto de referencia</label>
                   <input
                     value={form.destino}
-                    onChange={(e) => atualizar("destino", e.target.value)}
-                    placeholder="Ex: Fernando de Noronha, Bonito - MS, Chapada..."
+                    onChange={(e) => {
+                      atualizar("destino", e.target.value);
+                      setDestinoFocado(true);
+                    }}
+                    onFocus={() => setDestinoFocado(true)}
+                    onBlur={() => setTimeout(() => setDestinoFocado(false), 120)}
+                    autoComplete="off"
+                    placeholder="Para onde?"
                   />
+                  {showDestinationAutocomplete && (
+                    <div className="destination-autocomplete">
+                      {destinationMatches.map((destination) => (
+                        <button
+                          key={destination}
+                          type="button"
+                          onMouseDown={(event) => event.preventDefault()}
+                          onClick={() => selecionarDestino(destination)}
+                        >
+                          <span>{destination.split(" - ")[0]}</span>
+                          <small>{destination.split(" - ")[1] || "Brasil"}</small>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {showDestinationWarning && (
+                    <span className="destination-warning">
+                      Escolha uma sugestao para evitar destino escrito errado.
+                    </span>
+                  )}
                 </div>
 
-                <div className="search-row-3">
-                  <div className="search-field">
+                <div className="search-row-3 search-segment-group">
+                  <div className="search-field search-segment dates-segment">
                     <label>📅 Datas</label>
-                    <input
-                      value={form.datas}
-                      onChange={(e) => atualizar("datas", e.target.value)}
-                      placeholder="Ex: 10 a 17 de julho"
-                    />
+                    <div className="date-inputs">
+                      <div className="date-picker-shell">
+                        <button
+                          type="button"
+                          className="date-display"
+                          onClick={() => abrirCalendario(dataInicioInputRef)}
+                        >
+                          {formatPtDateInput(dataInicio) || "Ida"}
+                        </button>
+                        <input
+                          ref={dataInicioInputRef}
+                          className="native-date-input"
+                          type="date"
+                          value={dataInicio}
+                          lang="pt-BR"
+                          onChange={(e) => atualizarDatas("inicio", e.target.value)}
+                          aria-label="Data de ida"
+                        />
+                      </div>
+                      <div className="date-picker-shell">
+                        <button
+                          type="button"
+                          className="date-display"
+                          onClick={() => abrirCalendario(dataFimInputRef)}
+                        >
+                          {formatPtDateInput(dataFim) || "Volta"}
+                        </button>
+                        <input
+                          ref={dataFimInputRef}
+                          className="native-date-input"
+                          type="date"
+                          value={dataFim}
+                          min={dataInicio || undefined}
+                          lang="pt-BR"
+                          onChange={(e) => atualizarDatas("fim", e.target.value)}
+                          aria-label="Data de volta"
+                        />
+                      </div>
+                    </div>
+                    <span className="date-helper">
+                      {form.datas || "Escolha ida e volta no calendario"}
+                    </span>
                   </div>
-                  <div className="search-field">
+                  <div className="search-field search-segment guests-segment">
                     <label>👥 Viajantes</label>
                     <input
-                      value={form.pessoas}
-                      onChange={(e) => atualizar("pessoas", e.target.value)}
+                      value={guestsSummary}
+                      readOnly
+                      onClick={() => setGuestPickerOpen((open) => !open)}
+                      onFocus={() => setGuestPickerOpen(true)}
                       placeholder="Ex: 2 adultos + 1 criança"
                     />
+                    {guestPickerOpen && (
+                      <div className="guest-picker">
+                        <div className="guest-row">
+                          <strong>Adultos</strong>
+                          <div className="stepper">
+                            <button type="button" onClick={() => atualizarViajantes({ adultos: adultos - 1 })} disabled={adultos <= 1}>-</button>
+                            <span>{adultos}</span>
+                            <button type="button" onClick={() => atualizarViajantes({ adultos: adultos + 1 })}>+</button>
+                          </div>
+                        </div>
+                        <div className="guest-row">
+                          <strong>Criancas</strong>
+                          <div className="stepper">
+                            <button type="button" onClick={() => atualizarViajantes({ criancas: criancas - 1 })} disabled={criancas <= 0}>-</button>
+                            <span>{criancas}</span>
+                            <button type="button" onClick={() => atualizarViajantes({ criancas: criancas + 1 })}>+</button>
+                          </div>
+                        </div>
+                        {criancas > 0 && (
+                          <div className="children-ages">
+                            {Array.from({ length: criancas }).map((_, index) => (
+                              <select
+                                key={index}
+                                value={idadesCriancas[index] || ""}
+                                onChange={(event) => {
+                                  const next = [...idadesCriancas];
+                                  next[index] = event.target.value;
+                                  atualizarViajantes({ idades: next });
+                                }}
+                              >
+                                <option value="">Idade</option>
+                                {Array.from({ length: 18 }).map((__, age) => (
+                                  <option key={age} value={String(age)}>{age} anos</option>
+                                ))}
+                              </select>
+                            ))}
+                          </div>
+                        )}
+                        <p className="guest-note">
+                          Usamos estes dados para buscar hospedagens que acomodem todo o grupo e calcular melhor o orcamento.
+                        </p>
+                        <div className="guest-row">
+                          <strong>Quartos</strong>
+                          <div className="stepper">
+                            <button type="button" onClick={() => atualizarViajantes({ quartos: quartos - 1 })} disabled={quartos <= 1}>-</button>
+                            <span>{quartos}</span>
+                            <button type="button" onClick={() => atualizarViajantes({ quartos: quartos + 1 })}>+</button>
+                          </div>
+                        </div>
+                        <label className="guest-toggle">
+                          <span>Viajando com pets?</span>
+                          <input type="checkbox" checked={viajandoPets} onChange={(e) => setViajandoPets(e.target.checked)} />
+                        </label>
+                        <button type="button" className="guest-ok" onClick={() => setGuestPickerOpen(false)}>OK</button>
+                      </div>
+                    )}
                   </div>
                   <div className="search-field">
                     <label>💰 Orçamento</label>
@@ -484,20 +1000,21 @@ export default function Home() {
                   />
                 </div>
 
-                <button
-                  className="btn-generate"
-                  onClick={gerar}
-                  disabled={carregando || !form.destino}
-                >
+                  <button
+                    className="btn-generate"
+                    onClick={gerar}
+                    disabled={carregando || !form.destino || !destinoSelecionado}
+                  >
                   {carregando ? (
                     <>
                       <span className="spinner" />
-                      Pesquisando e planejando...
+                      Skills pesquisando para voce...
                     </>
                   ) : (
-                    <>🚀 Planejar minha viagem com IA</>
+                    <>Pesquisar</>
                   )}
                 </button>
+                </div>
 
                 {erro && <p className="msg-erro">{erro}</p>}
               </div>
@@ -510,27 +1027,88 @@ export default function Home() {
               <p className="eyebrow">Explore o Brasil</p>
               <h2>Destinos em alta agora</h2>
               <p className="section-sub">
-                Clique para preencher e planejar instantaneamente
+                Rotas possiveis, custos estimados e rede de apoio para voce
+                viajar com mais seguranca, mesmo achando que ainda esta longe.
               </p>
             </div>
             <div className="trending-grid">
-              {TRENDING.map((d) => (
-                <button
-                  key={d.name}
-                  className="trending-card"
-                  onClick={() => escolherTrending(d.name, d.seed)}
-                  style={{
-                    backgroundImage: `url(https://picsum.photos/seed/${d.seed}/600/400)`
-                  }}
-                >
-                  <div className="trending-overlay" />
-                  <div className="trending-info">
-                    <span className="trending-emoji">{d.emoji}</span>
-                    <span className="trending-name">{d.name.split(" - ")[0]}</span>
-                    <span className="trending-state">{d.name.split(" - ")[1]}</span>
-                  </div>
-                </button>
-              ))}
+              {TRENDING.map((d) => {
+                const details = TRENDING_DETAILS[d.name];
+
+                return (
+                  <button
+                    key={d.name}
+                    className="trending-card"
+                    onClick={() => escolherTrending(d.name, d.seed)}
+                    style={{
+                      backgroundImage: trendingImages[d.name]
+                        ? `url(${trendingImages[d.name]})`
+                        : undefined
+                    }}
+                  >
+                    <div className="trending-overlay" />
+                    <div className="trending-info">
+                      <div className="trending-topline">
+                        <span className="trending-emoji">{d.emoji}</span>
+                        <span className="trending-price">
+                          {details?.price || "rota personalizada"}
+                        </span>
+                      </div>
+                      <span className="trending-name">{d.name.split(" - ")[0]}</span>
+                      <span className="trending-state">{d.name.split(" - ")[1]}</span>
+                      <p className="trending-promise">
+                        {details?.promise || "ferias planejadas com apoio real"}
+                      </p>
+                      <span className="trending-support">
+                        {details?.support || "comunidade e fornecedores para ajudar"}
+                      </span>
+                      <span className="trending-action">Planejar essa viagem</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="travel-ecosystem">
+              <span>Rede de apoio</span>
+              <span>Fotos e mapas reais</span>
+              <span>Custos estimados</span>
+              <span>Fornecedores para conferir</span>
+              <span>Comunidade de quem ja foi</span>
+            </div>
+          </section>
+
+          {/* ── COMMUNITY CTA ── */}
+          <section className="section home-community" id="comunidade">
+            <div className="home-community-content">
+              <div>
+                <p className="eyebrow">Comunidade</p>
+                <h2>Encontre grupos e eventos no destino da sua viagem</h2>
+                <p>
+                  Além do roteiro, descubra pessoas, encontros, passeios em grupo,
+                  experiências gastronômicas e comunidades locais para viajar com
+                  mais confiança.
+                </p>
+                <a className="home-community-cta" href="/comunidade">
+                  Abrir Comunidade
+                </a>
+              </div>
+              <div className="home-community-cards">
+                <article>
+                  <span>🎣</span>
+                  <strong>Pescaria</strong>
+                  <p>Grupos, barcos, guias e dicas locais.</p>
+                </article>
+                <article>
+                  <span>🍽️</span>
+                  <strong>Gastronomia</strong>
+                  <p>Encontros em restaurantes e experiências regionais.</p>
+                </article>
+                <article>
+                  <span>🗺️</span>
+                  <strong>Passeios</strong>
+                  <p>Eventos, trilhas e atividades para famílias.</p>
+                </article>
+              </div>
             </div>
           </section>
 
@@ -1144,6 +1722,24 @@ export default function Home() {
                   </div>
                   <div className="agent-card">
                     <h3>📱 Contatos de fornecedores</h3>
+                    {(agentes.fontesConfianca?.length ?? 0) > 0 && (
+                      <div className="trust-source-list">
+                        {agentes.fontesConfianca?.map((source) => (
+                          <a
+                            key={`${source.kind}-${source.name}`}
+                            href={source.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="trust-source"
+                          >
+                            <span className="trust-kind">{source.kind}</span>
+                            <strong>{source.name}</strong>
+                            <p>{source.description}</p>
+                            <small>{source.verificationTip}</small>
+                          </a>
+                        ))}
+                      </div>
+                    )}
                     <ul>
                       {agentes.contatosFornecedores.map((draft) => (
                         <li key={draft.supplierName}>
@@ -1163,13 +1759,35 @@ export default function Home() {
                   </div>
                   <div className="agent-card">
                     <h3>🛠️ Skills ativas</h3>
-                    <ul>
-                      {agentes.skillsUsadas.map((skill) => (
-                        <li key={skill}>
-                          <span className="skill-tag">{skill}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {(agentes.trabalhoSkills?.length ?? 0) > 0 ? (
+                      <div className="skill-work-list">
+                        {agentes.trabalhoSkills?.map((skill) => (
+                          <article key={skill.id} className="skill-work-item">
+                            <div className="skill-work-head">
+                              <strong>{skill.name}</strong>
+                              <span className={`skill-status ${skill.status}`}>
+                                {skill.status === "done"
+                                  ? "feito"
+                                  : skill.status === "needs-review"
+                                  ? "conferir"
+                                  : "aguardando"}
+                              </span>
+                            </div>
+                            <p>{skill.mission}</p>
+                            <small>{skill.result}</small>
+                            <em>{skill.clientBenefit}</em>
+                          </article>
+                        ))}
+                      </div>
+                    ) : (
+                      <ul>
+                        {agentes.skillsUsadas.map((skill) => (
+                          <li key={skill}>
+                            <span className="skill-tag">{skill}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1179,6 +1797,8 @@ export default function Home() {
       )}
 
       {/* ── SAVED TRIPS ── */}
+      {roteiro && renderDestinosSection()}
+
       <section className="saved-section">
         <div className="section-header">
           <p className="eyebrow">Seus roteiros</p>

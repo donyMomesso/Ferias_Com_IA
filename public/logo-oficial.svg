@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 72" width="280" height="72">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="planeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Círculo de fundo do ícone -->
+  <circle cx="36" cy="36" r="30" fill="url(#logoGrad)" opacity="0.12"/>
+
+  <!-- Avião estilizado -->
+  <g transform="translate(36,36) rotate(-30)">
+    <!-- Corpo do avião -->
+    <ellipse rx="14" ry="5" fill="url(#planeGrad)"/>
+    <!-- Asa principal -->
+    <path d="M-4,-2 L6,-14 L10,-12 L2,0 Z" fill="url(#logoGrad)"/>
+    <!-- Asa traseira -->
+    <path d="M-8,-1 L-14,-7 L-12,-9 L-6,0 Z" fill="url(#logoGrad)" opacity="0.8"/>
+    <!-- Cauda -->
+    <path d="M-12,-2 L-16,-8 L-13,-8 L-10,-2 Z" fill="#7c3aed" opacity="0.7"/>
+  </g>
+
+  <!-- Wordmark principal -->
+  <text x="78" y="34" font-family="'Segoe UI', Arial, sans-serif" font-size="24" font-weight="800" fill="url(#logoGrad)" letter-spacing="-0.5">Férias com IA</text>
+
+  <!-- Subtítulo -->
+  <text x="79" y="52" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="500" fill="#64748b" letter-spacing="2.5">ROTEIROS INTELIGENTES</text>
+
+  <!-- Linha decorativa -->
+  <line x1="79" y1="57" x2="240" y2="57" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.3"/>
+</svg>
